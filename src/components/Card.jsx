@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import {Link} from "react-router-dom"
 
 const DivCard = styled.div `
    margin: 6%;
@@ -6,7 +7,7 @@ const DivCard = styled.div `
    display: inline-block;
    border: solid;
    text-align: center;
-   background: white;
+   background: purple;
 `
 
 const DivButtonEliminarCard = styled.div `
@@ -53,7 +54,20 @@ const DivTextoImg = styled.div `
    padding: 5px;
    border-radius: 5px;
 `
-
+const Detalles = styled.button `
+   background:none;
+   border: none;
+   margin-bottom: 15px;
+   font-size: 25px;
+   font-weight: 700;
+   color: black;
+   text-decoration: none;
+   &:hover {
+    color: palevioletred;
+    background: black;
+    border-radius: 20px;
+  }
+`
 
 export default function Card(props) {
    return (
@@ -67,6 +81,9 @@ export default function Card(props) {
             <SpanSpeciesGender>{props.species}</SpanSpeciesGender>
             <SpanSpeciesGender>{props.gender}</SpanSpeciesGender>
          </DivSpeciesGender>
+         <Link style={{textDecoration: "none"}} to={`/detail/${props.detailId}`} >
+            <Detalles>Detalles</Detalles>
+         </Link>
       </DivCard>
    );
 }

@@ -1,32 +1,57 @@
-import Card from './components/Card.jsx' 
+import { useState } from 'react'
 import Cards from './components/Cards.jsx'
-import SearchBar from './components/SearchBar.jsx'
-import characters, { Rick } from './data.js'
+import Nav from './components/Nav.jsx'
+import {Route , Routes} from 'react-router-dom'
+import About from './components/About.jsx'
+import Detail from './components/Detail.jsx'
 
 function App () {
+  const [characters, setCharacters] = useState([]);
+
+  const buscarCharacter = (data) => {
+    for (let index = 0; index < characters.length; index++) {
+      if (data.image === characters[index].image) return true;
+    }
+    return false;
+  }
+
+  function onSearch(character) {
+    fetch(`https://rickandmortyapi.com/api/character/${character}`)
+       .then((response) => response.json())
+       .then((data) => {
+          if (data.name && !buscarCharacter(data)) {
+            setCharacters((oldChars) => [...oldChars, data]);
+          } else if (buscarCharacter(data)){
+            window.alert('Personaje ya agregado');
+          }
+          else {
+            window.alert('No hay personajes con ese ID')
+          }
+       });
+  }
+
+  function onClose(name) {
+    const filtro = characters.filter((pj) => pj.name !== name)
+    setCharacters(filtro);
+  }
+
   return (
-    <div style={{ padding: '25px', backgroundImage: "url(https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8NXx8fGVufDB8fHx8&w=1000&q=80)", backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
+    <div style={{padding: '25px'}}>
       <div>
-        <Card
-          name={Rick.name}
-          species={Rick.species}
-          gender={Rick.gender}
-          image={Rick.image}
-          onClose={() => window.alert('Emulamos que se cierra la card')}
-        />
+        <Nav onSearch={onSearch}/>
       </div>
-      <hr />
-      <div>
-        <Cards
-          characters={characters}
-        />
-      </div>
-      <hr />
-      <div>
-        <SearchBar
-          onSearch={(characterID) => window.alert(characterID)}
-        />
-      </div>
+      <Routes>
+        <Route path='/home' element={ 
+          <div>
+            <Cards
+              characters={characters}
+              onClose={onClose}
+            />
+          </div>
+        }/>
+        <Route path='/about' element={<About></About>}/>
+        <Route path='/detail/:detailId' element={<Detail></Detail>}/>
+      </Routes>
     </div>
   )
 }

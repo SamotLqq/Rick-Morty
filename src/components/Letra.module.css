@@ -1,0 +1,25 @@
+.title {
+  text-align: center;
+  font-family: 'Get Schwifty';
+  font-size: 5em;
+  color: #08BAE3;
+  z-index: 50;
+  -webkit-text-stroke: 1px #008f39;
+}
+
+.subtitle {
+  font-family: 'Get Schwifty';
+  font-size: 3em;
+  color: #08BAE3;
+  z-index: 50;
+  -webkit-text-stroke: 1px #008f39;
+  text-align: center;
+}
+
+.portal {
+    text-align: center;
+}
+@font-face {
+  font-family: 'Get Schwifty';
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/3089507/get-schwifty.woff') format('woff');
+}

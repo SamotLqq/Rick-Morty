@@ -1,3 +1,4 @@
+import { useState } from "react"
 import styled from "styled-components"
 
 const ButtonSearch = styled.button `
@@ -10,7 +11,7 @@ const ButtonSearch = styled.button `
 `
 
 const DivSearch = styled.div `
-   text-align: center;
+   text-align: right;
 `
 
 const InputSearch = styled.input `
@@ -20,10 +21,23 @@ const InputSearch = styled.input `
 `
 
 export default function SearchBar(props) {
+   const [character, setCharacter] = useState('');
+
+   const onChange = (e) => {
+      setCharacter(e.target.value);
+   }
+
+   const cantidadPersonajes = 826;
+
+   function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+
    return (
       <DivSearch>
-         <InputSearch type='search'/>
-         <ButtonSearch onClick={props.onSearch}>Agregar</ButtonSearch>
+         <ButtonSearch onClick={() => props.onSearch(getRandomInt(cantidadPersonajes + 1))}>Agregar Random</ButtonSearch>
+         <InputSearch type='search' onChange={onChange}/>
+         <ButtonSearch onClick={() => props.onSearch(character)}>Agregar</ButtonSearch>
       </DivSearch>
    );
 }

@@ -7,15 +7,16 @@ const SpanCards = styled.span `
 
 export default function Cards(props) {
    const { characters } = props;
-   const retorno = characters.map((pj) => {
+   const retorno = characters.map((pj,i) => {
       return (
-         <SpanCards>
+         <SpanCards key={i}>
              <Card 
                name = {pj.name} 
                species = {pj.species} 
                gender = {pj.gender} 
                image = {pj.image} 
-               onClose={() => window.alert('Emulamos que se cierra la card')}
+               onClose={() => props.onClose(pj.name)}
+               detailId = {pj.id}
             /> 
          </SpanCards>
       )
