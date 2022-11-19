@@ -62,6 +62,7 @@ const Detalles = styled.button `
    font-weight: 700;
    color: black;
    text-decoration: none;
+   cursor:pointer;
    &:hover {
     color: palevioletred;
     background: black;
