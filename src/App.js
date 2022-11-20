@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState} from 'react'
 import Cards from './components/Cards.jsx'
 import Nav from './components/Nav.jsx'
-import {Route , Routes} from 'react-router-dom'
+import {Route , Routes, useNavigate } from 'react-router-dom'
 import About from './components/About.jsx'
 import Detail from './components/Detail.jsx'
+import Form from './components/Form.jsx'
 
 function App () {
   const [characters, setCharacters] = useState([]);
@@ -35,12 +36,36 @@ function App () {
     setCharacters(filtro);
   }
 
+  const navigate = useNavigate()
+  const [access, setAccess] = useState(false);
+  const username = 'tmsalbanesi@gmail.com';
+  const password = 'tomi2901';
+
+  function login(userData) {
+    if (userData.password === password && userData.username === username) {
+      setAccess(true);
+    }
+    else alert("Usuario o Contraseña incorrecto/a");
+  }
+
+  function logout(userData) {
+    navigate("/");
+    setAccess(false);
+  }
+
+  useEffect(() => {
+    !access || navigate('/home');
+ }, [access]);
+
+
+
   return (
     <div style={{padding: '25px'}}>
       <div>
-        <Nav onSearch={onSearch}/>
+        <Nav logout={logout} onSearch={onSearch}/>
       </div>
       <Routes>
+        <Route path='/' element={<Form login={login}/>}/>
         <Route path='/home' element={ 
           <div>
             <Cards

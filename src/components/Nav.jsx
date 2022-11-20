@@ -1,6 +1,6 @@
 import SearchBar from "./SearchBar.jsx"
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const NavBar = styled.nav`
    background: #008B8B;
@@ -24,16 +24,21 @@ const Buttons = styled.button`
 
 export default function Nav(props) {
    const navigate = useNavigate();
-   const backHome = () => navigate("/home");
-   const goAbout = () => navigate("/about")
+   let urlActual = useLocation();
+   if (urlActual.pathname !== "/") {
+      const backHome = () => navigate("/home");
+      const goAbout = () => navigate("/about")
 
-    return (
-       <NavBar>
-         <DivButtons>
-            <Buttons onClick={backHome}>Home</Buttons>
-            <Buttons onClick={goAbout}>About</Buttons>
-         </DivButtons>
-         <SearchBar onSearch={props.onSearch}/>
-       </NavBar>
-    );
+      return (
+         <NavBar>
+            <DivButtons>
+               <Buttons onClick={backHome}>Home</Buttons>
+               <Buttons onClick={goAbout}>About</Buttons>
+               <Buttons onClick={props.logout}>Logout</Buttons>
+            </DivButtons>
+            <SearchBar onSearch={props.onSearch}/>
+         </NavBar>
+      );
+   }
+   else return null;
  }
