@@ -1,7 +1,10 @@
 import styled from "styled-components"
 import {Link} from "react-router-dom"
+import { addFav, delFav } from "../redux/actions"
+import { connect } from "react-redux"
+import { useEffect, useState } from "react"
 
-const DivCard = styled.div `
+export const DivCard = styled.div `
    margin: 6%;
    width: 20%;
    display: inline-block;
@@ -10,38 +13,34 @@ const DivCard = styled.div `
    background: purple;
 `
 
-const DivButtonEliminarCard = styled.div `
-   text-align: right;
-` 
-
-const ButtonEliminarCard = styled.button `
+export const ButtonEliminarCard = styled.button `
    cursor:pointer;
    margin: 10px;
    background: red;
    color: white;
 `
-const DivSpeciesGender = styled.div `
+export const DivSpeciesGender = styled.div `
    font-size: 20px;
    font-weight: 800;
    margin: 10px;
 `
-const SpanSpeciesGender = styled.span `
+export const SpanSpeciesGender = styled.span `
    padding:20px;
 `
 
-const DivImgPj = styled.div `
+export const DivImgPj = styled.div `
    position: relative;
    display: inline-block;
    text-align: center;
    width: 99%;
 `
 
-const ImgPj = styled.img `
+export const ImgPj = styled.img `
    width: 100%;
    border-radius:5px;
 `
 
-const DivTextoImg = styled.div `
+export const DivTextoImg = styled.div `
    position: absolute;
    top: 85%;
    left: 5%;
@@ -54,26 +53,65 @@ const DivTextoImg = styled.div `
    padding: 5px;
    border-radius: 5px;
 `
-const Detalles = styled.button `
+export const Detalles = styled.button `
    background:none;
-   border: none;
+   border-width: 5px;
    margin-bottom: 15px;
    font-size: 25px;
    font-weight: 700;
    color: black;
    text-decoration: none;
    cursor:pointer;
+   border-radius: 50px;
    &:hover {
-    color: palevioletred;
+    transition: 0.5s;
+    color: purple;
     background: black;
-    border-radius: 20px;
+    border-radius: 50px;
   }
 `
 
-export default function Card(props) {
+function Card(props) {
+   const [isFav, setIsFav] = useState(false);
+   const {addFav, delFav, detailId} = props;
+
+   const handleFavorite = () => {
+      if (isFav) {
+         setIsFav(false);
+         delFav(detailId);
+      }
+      else {
+         setIsFav(true);
+         addFav(props);
+      }
+   }
+
+   const eliminar = () => {
+      props.onClose();
+      setIsFav(false);
+      delFav(detailId);
+   }
+
+   useEffect(() => {
+      for (let i = 0; i < props.myFavorites.length; i++) {
+         if (props.myFavorites[i].detailId === props.detailId) {
+            setIsFav(true);
+         }
+      }
+   }, [props.myFavorites]);
+
    return (
       <DivCard>
-         <DivButtonEliminarCard><ButtonEliminarCard onClick={props.onClose}>X</ButtonEliminarCard></DivButtonEliminarCard>
+         <div style={{display: "flex", justifyContent: "space-between"}}>
+         {
+            isFav ? (
+               <ButtonEliminarCard style={{fontSize: "20px", border: "none", background: "none"}} onClick={handleFavorite}>❤️</ButtonEliminarCard>
+            ) : (
+               <ButtonEliminarCard style={{fontSize: "20px", border: "none", background: "none"}} onClick={handleFavorite}>🤍</ButtonEliminarCard>
+            )
+         }
+         <ButtonEliminarCard onClick={eliminar}>X</ButtonEliminarCard>
+         </div>
          <DivImgPj>
             <ImgPj src={props.image} alt="" />
             <DivTextoImg>{props.name}</DivTextoImg>
@@ -88,3 +126,16 @@ export default function Card(props) {
       </DivCard>
    );
 }
+
+export function mapDispatchToProps(dispatch) {
+   return {
+      addFav: (pj) => dispatch(addFav(pj)),
+      delFav: (id) => dispatch(delFav(id))
+   }
+}
+
+export function mapStateToProps(state) {
+   return {myFavorites: state.myFavorites};
+ }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

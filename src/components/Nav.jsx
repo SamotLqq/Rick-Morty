@@ -18,7 +18,7 @@ const Buttons = styled.button`
    color: white;
    border-radius: 5px;
    cursor:pointer;
-   width: 200px;
+   width: 100px;
    height: 40px;
 `
 
@@ -27,13 +27,15 @@ export default function Nav(props) {
    let urlActual = useLocation();
    if (urlActual.pathname !== "/") {
       const backHome = () => navigate("/home");
-      const goAbout = () => navigate("/about")
+      const goAbout = () => navigate("/about");
+      const goFavorites = () => navigate("/favorites");
 
       return (
          <NavBar>
             <DivButtons>
                <Buttons onClick={backHome}>Home</Buttons>
                <Buttons onClick={goAbout}>About</Buttons>
+               <Buttons onClick={goFavorites}>Favorites</Buttons>
                <Buttons onClick={props.logout}>Logout</Buttons>
             </DivButtons>
             <SearchBar onSearch={props.onSearch}/>

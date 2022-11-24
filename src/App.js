@@ -5,6 +5,8 @@ import {Route , Routes, useNavigate } from 'react-router-dom'
 import About from './components/About.jsx'
 import Detail from './components/Detail.jsx'
 import Form from './components/Form.jsx'
+import Favorites from './components/Favorites.jsx'
+
 
 function App () {
   const [characters, setCharacters] = useState([]);
@@ -76,6 +78,7 @@ function App () {
         }/>
         <Route path='/about' element={<About></About>}/>
         <Route path='/detail/:detailId' element={<Detail></Detail>}/>
+        <Route path='/favorites' element={<Favorites></Favorites>}/>
       </Routes>
     </div>
   )

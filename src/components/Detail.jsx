@@ -24,6 +24,7 @@ const Regresar = styled.button`
   background-color: transparent;
   border: transparent;
   cursor: pointer;
+  margin: 20px;
   &:hover {
     color: black;
     background: #008f39;
@@ -34,6 +35,7 @@ const Regresar = styled.button`
 export default function Detail(props) {
     const navigate = useNavigate();
     const backHome = () => navigate("/home");
+    const backFavorites = () => navigate("/favorites");
 
     const {detailId} = useParams();
     const [character, setCharacter] = useState("");
@@ -70,7 +72,8 @@ export default function Detail(props) {
                 <h4 className={styles.subtitle}>Especie: {specie}</h4>
                 <h4 className={styles.subtitle}>Genero: {gender}</h4>
                 <h4 className={styles.subtitle}>Origen: {origin === undefined ? undefined : origin.name}</h4>
-                <Regresar onClick={backHome} className={styles.subtitle}>Regresar a Home</Regresar>
+                <Regresar onClick={backHome} className={styles.subtitle}>Ir a Home</Regresar>
+                <Regresar onClick={backFavorites} className={styles.subtitle}>Ir a Favorites</Regresar>
             </div>
             <Image src={image} alt={name} />
         </Contenedor>
