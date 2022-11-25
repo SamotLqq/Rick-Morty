@@ -20,7 +20,7 @@ export const ButtonEliminarCard = styled.button `
    color: white;
 `
 export const DivSpeciesGender = styled.div `
-   font-size: 20px;
+   font-size: 1.5rem;
    font-weight: 800;
    margin: 10px;
 `
@@ -45,7 +45,7 @@ export const DivTextoImg = styled.div `
    top: 85%;
    left: 5%;
    transform: translate(0%, 0%);
-   font-size: 20px;
+   font-size: 1.5rem;
    font-weight: 800;
    background: black;
    opacity: 0.75;
@@ -57,7 +57,7 @@ export const Detalles = styled.button `
    background:none;
    border-width: 5px;
    margin-bottom: 15px;
-   font-size: 25px;
+   font-size: 1.5rem;
    font-weight: 700;
    color: black;
    text-decoration: none;
@@ -93,12 +93,12 @@ function Card(props) {
    }
 
    useEffect(() => {
-      for (let i = 0; i < props.myFavorites.length; i++) {
-         if (props.myFavorites[i].detailId === props.detailId) {
+      for (let i = 0; i < props.allCharacters.length; i++) {
+         if (props.allCharacters[i].detailId === props.detailId) {
             setIsFav(true);
          }
       }
-   }, [props.myFavorites]);
+   }, [props.allCharacters]);
 
    return (
       <DivCard>
@@ -135,7 +135,7 @@ export function mapDispatchToProps(dispatch) {
 }
 
 export function mapStateToProps(state) {
-   return {myFavorites: state.myFavorites};
+   return {allCharacters: state.allCharacters};
  }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Card);
